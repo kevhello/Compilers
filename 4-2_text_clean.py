@@ -47,6 +47,7 @@ def space_formatter(expr):
             continue
         content = content + token.strip()
 
+    # This section adds the appropriate spaces for the reserved words ------------------------------------------
     reserved_pattern = r'(\s*PROGRAM\s*|\s*INTEGER\s*|\s*PRINT\s*|\s*BEGIN\s*|\s*END\.\s*)'
     matched = re.match(reserved_pattern, content)
     word = ''
@@ -68,6 +69,8 @@ def space_formatter(expr):
     if word == 'END.':
         content = re.sub(r'\s*END.\s*', 'END.', content, 0)
 
+    # --------------------------------------------------------------------------------------------------------
+    # This section adds the appropriate spaces for the symbols
     symbolic_pattern = r'(\=|\*|\-|\,|\:|\(|\)|\<\=|\+|\;)'
     matched = re.findall(symbolic_pattern, content)
 
@@ -99,14 +102,17 @@ def space_formatter(expr):
         if word == ':':
             content = re.sub(r'\s*:\s*', ' : ', content, 0)
 
+    # --------------------------------------------------------------------------------------------------------
+    # This section adds the appropriate spaces for negative numbers
     neg_number_pattern = r'-\s*[0-9]'
     matched = re.findall(neg_number_pattern, content)
 
     for num in matched:
         number = num[2:]
-        content = re.sub(r'\s*-\s*[0-9]\s*', ' -' + number, content, 0)
+        content = re.sub(r'\s*-\s*[0-9]\s*', ' -' + number + ' ', content, 0)
 
-    print(content)
+    # --------------------------------------------------------------------------------------------------------
+
     return content+'\n'
 
 
@@ -142,7 +148,7 @@ def main():
         comment_remover(source_file, new_file)
         new_file.close()
 
-    # Second, clean the spaces
+    # Clean the spaces
     clean_text('finalv2.txt')
 
         
