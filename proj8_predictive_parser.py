@@ -19,11 +19,10 @@ def predictive_parser(input_str, predict_table, terminal_list, starting_symbol):
     :return: Returns -1 if input string is rejected, otherwise returns 0 if accepted
     '''
     print('Parsing: ' + input_str)
-    stack = ['$']
-    stack.append(starting_symbol)
-    i = 0   # Keeps track which character the of the input string is currently being read.
+    stack = ['$', starting_symbol]
+    i = 0  # Keeps track which character the of the input string is currently being read.
     while stack:
-        top_of_stack = stack[len(stack)-1]
+        top_of_stack = stack[len(stack) - 1]
         char_read = input_str[i]
         if top_of_stack in terminal_list:
             if top_of_stack is char_read:
@@ -52,23 +51,32 @@ def main():
     input_str3 = 'i(i+i)$'
 
     # Note: Empty slot = 'aaa'
-    predict_table1 = {'E': {'i': 'TQ', '+': 'aaa', '-': 'aaa', '*': 'aaa', '/': 'aaa', '(': 'TQ', ')': 'aaa', '$': 'aaa'},
-                     'Q': {'i': 'aaa', '+': '+TQ', '-': '-TQ', '*': 'aaa', '/': 'aaa', '(': 'aaa', ')': 'lambda', '$': 'lambda'},
-                     'T': {'i': 'FR', '+': 'aaa', '-': 'aaa', '*': 'aaa', '/': 'aaa', '(': 'FR', ')': 'aaa', '$': 'aaa'},
-                     'R': {'i': 'aaa', '+': 'lambda', '-': 'lambda', '*': '*FR', '/': '/FR', '(': 'aaa', ')': 'lambda', '$': 'lambda'},
-                     'F': {'i': 'i', '+': 'aaa', '-': 'aaa', '*': 'aaa', '/': 'aaa', '(': '(E)', ')': 'aaa', '$': 'aaa'}}
+    predict_table1 = {
+        'E': {'i': 'TQ', '+': 'aaa', '-': 'aaa', '*': 'aaa', '/': 'aaa', '(': 'TQ', ')': 'aaa', '$': 'aaa'},
+        'Q': {'i': 'aaa', '+': '+TQ', '-': '-TQ', '*': 'aaa', '/': 'aaa', '(': 'aaa', ')': 'lambda', '$': 'lambda'},
+        'T': {'i': 'FR', '+': 'aaa', '-': 'aaa', '*': 'aaa', '/': 'aaa', '(': 'FR', ')': 'aaa', '$': 'aaa'},
+        'R': {'i': 'aaa', '+': 'lambda', '-': 'lambda', '*': '*FR', '/': '/FR', '(': 'aaa', ')': 'lambda',
+              '$': 'lambda'},
+        'F': {'i': 'i', '+': 'aaa', '-': 'aaa', '*': 'aaa', '/': 'aaa', '(': '(E)', ')': 'aaa', '$': 'aaa'}}
 
     terminal_list1 = ['i', '+', '-', '*', '/', '(', ')', '$']
     predictive_parser(input_str1, predict_table1, terminal_list1, 'E')
     predictive_parser(input_str2, predict_table1, terminal_list1, 'E')
     predictive_parser(input_str3, predict_table1, terminal_list1, 'E')
 
-    predict_table2 = {'S': {'a': 'a=E', 'b': 'aaa', '(': 'aaa', ')': 'aaa', '/': 'aaa', '*': 'aaa', '+': 'aaa', '-': 'aaa', '=': 'aaa', '$': 'aaa'},
-                     'E': {'a': 'TQ', 'b': 'TQ', '(': 'TQ', ')': 'aaa', '/': 'aaa', '*': 'aaa', '+': 'aaa', '-': 'aaa', '=': 'aaa', '$': 'aaa'},
-                     'Q': {'a': 'aaa', 'b': 'aaa', '(': 'aaa', ')': 'lambda', '/': 'aaa', '*': 'aaa', '+': '+TQ', '-': '-TQ', '=': 'aaa', '$': 'lambda'},
-                     'T': {'a': 'FR', 'b': 'FR', '(': 'FR', ')': 'aaa', '/': 'aaa', '*': 'aaa', '+': 'aaa', '-': 'aaa', '=': 'aaa', '$': 'aaa'},
-                     'R': {'a': 'aaa', 'b': 'aaa', '(': 'aaa', ')': 'lambda', '/': '/FR', '*': '*FR', '+': 'lambda', '-': 'lambda', '=': 'aaa', '$': 'lambda'},
-                     'F': {'a': 'a', 'b': 'b', '(': '(E)', ')': 'aaa', '/': 'aaa', '*': 'aaa', '+': 'aaa', '-': 'aaa', '=': 'aaa', '$': 'aaa'}}
+    predict_table2 = {
+        'S': {'a': 'a=E', 'b': 'aaa', '(': 'aaa', ')': 'aaa', '/': 'aaa', '*': 'aaa', '+': 'aaa', '-': 'aaa',
+              '=': 'aaa', '$': 'aaa'},
+        'E': {'a': 'TQ', 'b': 'TQ', '(': 'TQ', ')': 'aaa', '/': 'aaa', '*': 'aaa', '+': 'aaa', '-': 'aaa', '=': 'aaa',
+              '$': 'aaa'},
+        'Q': {'a': 'aaa', 'b': 'aaa', '(': 'aaa', ')': 'lambda', '/': 'aaa', '*': 'aaa', '+': '+TQ', '-': '-TQ',
+              '=': 'aaa', '$': 'lambda'},
+        'T': {'a': 'FR', 'b': 'FR', '(': 'FR', ')': 'aaa', '/': 'aaa', '*': 'aaa', '+': 'aaa', '-': 'aaa', '=': 'aaa',
+              '$': 'aaa'},
+        'R': {'a': 'aaa', 'b': 'aaa', '(': 'aaa', ')': 'lambda', '/': '/FR', '*': '*FR', '+': 'lambda', '-': 'lambda',
+              '=': 'aaa', '$': 'lambda'},
+        'F': {'a': 'a', 'b': 'b', '(': '(E)', ')': 'aaa', '/': 'aaa', '*': 'aaa', '+': 'aaa', '-': 'aaa', '=': 'aaa',
+              '$': 'aaa'}}
 
     terminal_list2 = ['a', 'b', '(', ')', '/', '*', '+', '-', '=', '$']
     input_str4 = 'a=(a+a)*b$'

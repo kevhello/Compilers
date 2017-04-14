@@ -1,12 +1,31 @@
 #!/usr/bin/env python3
-# Assignment #4, Program 2
-# Professor Ahmadnia
-# Group: Kevin Vuong, Anika Corpus, Christopher Grant
-# Due: 2/23/17
-# Description: This program takes an input file and removes all comment lines, extra spaces, and places a space
-#              before and after each token. These changes are then saved to a new file.
-
+"""
+This program provides functionality for removing comments and formatting the spaces.
+"""
 import re
+
+
+def comment_remover(file_read, file_write):
+    """
+    Removes the comments from the text file (file_read) and writes it to another file (file_write).
+    
+    :param file_read: The text file being read from
+    :param file_write: The text file being written into
+    :return: None
+    """
+    content = file_read.readlines()
+    content = ''.join(content)
+
+    # The pattern to remove multi-line comments
+    mult_line_comment_pattern = '//.*\n.*//'
+    content = re.sub(mult_line_comment_pattern, '', content, 0)
+
+    # The pattern to remove single-line comments
+    single_line_comment_pattern = '//.*//'
+    content = re.sub(single_line_comment_pattern, '', content, 0)
+
+    file_write.writelines(content)
+
 
 def space_formatter(expr):
     """
@@ -19,74 +38,108 @@ def space_formatter(expr):
         line: the line of processed text
     
     """
-    tokenList = expr.split(" ")
+    token_list = expr.split(" ")
     line = ''
     content = ''
-    pattern = r'(\=|\*|\-|\,|\:|\(|\)|\<\=|\+)'
 
-    for token in tokenList:
-        if token == '':
+
+    # This loop removes elements with empty string contents
+    for token in token_list:
+        if re.match(r'^\s*\n*\s*$', token):
             continue
-        content = content + token
+        content = content + token.strip()
 
-    for char in content:
-        if char == '\n':
-            continue
-        if char == ';':
-            line = line + ' '
-            line = line+char
-            line = line +'\n'
-        elif re.match(pattern, char):
-            line = line + ' '
-            line = line + char
-            line = line + ' '
-        else:
-            line = line + char
-            
-    return line
+    reserved_pattern = r'(\s*PROGRAM\s*|\s*INTEGER\s*|\s*PRINT\s*|\s*BEGIN\s*|\s*END\.\s*)'
+    matched = re.match(reserved_pattern, content)
+    word = ''
+    if matched is not None:
+        word = matched.group()
+
+    if word == 'PROGRAM':
+        content = re.sub(r'(\s*PROGRAM\s*)', 'PROGRAM ', content, 0)
+
+    if word == 'INTEGER':
+        content = re.sub(r'(\s*INTEGER\s*)', 'INTEGER ', content, 0)
+
+    if word == 'PRINT':
+        content = re.sub(r'(\s*PRINT\s*)', 'PRINT ', content, 0)
+
+    if word == 'BEGIN':
+        content = re.sub(r'\s*BEGIN\s*', 'BEGIN', content, 0)
+
+    if word == 'END.':
+        content = re.sub(r'\s*END.\s*', 'END.', content, 0)
+
+    symbolic_pattern = r'(\=|\*|\-|\,|\:|\(|\)|\<\=|\+|\;)'
+    matched = re.findall(symbolic_pattern, content)
+
+    for word in matched:
+        if word == '=':
+            content = re.sub(r'\s*=\s*', ' = ', content, 0)
+
+        if word == ',':
+            content = re.sub(r'\s*,\s*', ' , ', content, 0)
+
+        if word == ';':
+            content = re.sub(r'\s*;\s*', ' ;', content, 0)
+
+        if word == '(':
+            content = re.sub(r'\s*\(\s*', ' ( ', content, 0)
+
+        if word == ')':
+            content = re.sub(r'\s*\)\s*', ' ) ', content, 0)
+
+        if word == '+':
+            content = re.sub(r'\s*\+\s*', ' + ', content, 0)
+
+        if word == '-':
+            content = re.sub(r'\s*-\s*', ' - ', content, 0)
+
+        if word == '*':
+            content = re.sub(r'\s*\*\s*', ' * ', content, 0)
+
+        if word == ':':
+            content = re.sub(r'\s*:\s*', ' : ', content, 0)
+
+    print(content)
+    return content+'\n'
 
 
-def clean_text(file):
+def clean_text(filename):
     """
-    Cleans the text of comments and formatting all the spaces
+    Cleans up the spaces in the text file.
     
-    Arguments:
-        file: the file to be read
-    
-    Returns:
-        lines_content: The content of the text, properly formatted and cleaned
-    
+    :param filename: The name of the file you want to clean
     """
+    file = open('finalv2.txt', mode='r+', encoding='utf-8')
     lines_read = file.readlines()
     lines_content = ''
-    comments_PATTERN = r'//.*'
+
     for line in lines_read:
-        
-        # Ignore the comments
-        line = re.sub(comments_PATTERN, r'', line)
-        
+
         # Ignore lines that only contain the newline character
-        if re.match(pattern=r'^\n$', string=line):
+        if re.match(pattern=r'\s*\n$\s*', string=line):
             continue
-        
-        # Checks if a statement ends with a semicolon
-        if re.match(pattern=r'.*;', string=line) == None:
-            print(line,end='')
-            print('Syntax error: Missing ; after end of statement')
-            exit(1)
-    
+
         line = space_formatter(line)
         lines_content = lines_content + line
-        
-    print(lines_content)
-    return lines_content
+
+    # Writes the cleaned up text to the text file
+    with open(filename, mode='w+') as new_file:
+        new_file.writelines(lines_content)
+
 
 def main():
-    with open("data.txt") as f:
-        content = clean_text(f)
-        new_file = open('newdata.txt', mode='w', encoding='utf-8')
-        new_file.writelines(content)
+
+    # First, remove all the comments
+    with open("finalv1.txt") as source_file:
+        new_file = open('finalv2.txt', mode='w+', encoding='utf-8')
+        comment_remover(source_file, new_file)
         new_file.close()
+
+    # Second, clean the spaces
+    clean_text('finalv2.txt')
+
         
 if __name__ == "__main__":
     main()
