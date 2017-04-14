@@ -39,9 +39,7 @@ def space_formatter(expr):
     
     """
     token_list = expr.split(" ")
-    line = ''
     content = ''
-
 
     # This loop removes elements with empty string contents
     for token in token_list:
@@ -100,6 +98,13 @@ def space_formatter(expr):
 
         if word == ':':
             content = re.sub(r'\s*:\s*', ' : ', content, 0)
+
+    neg_number_pattern = r'-\s*[0-9]'
+    matched = re.findall(neg_number_pattern, content)
+
+    for num in matched:
+        number = num[2:]
+        content = re.sub(r'\s*-\s*[0-9]\s*', ' -' + number, content, 0)
 
     print(content)
     return content+'\n'
