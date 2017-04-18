@@ -47,7 +47,7 @@ def space_formatter(expr):
             continue
         content = content + token.strip()
 
-    # This section adds the appropriate spaces for the reserved words ------------------------------------------
+    # This section adds the appropriate spaces for the reserved words
     reserved_pattern = r'(\s*PROGRAM\s*|\s*INTEGER\s*|\s*PRINT\s*|\s*BEGIN\s*|\s*END\.\s*)'
     matched = re.match(reserved_pattern, content)
     word = ''
@@ -69,7 +69,6 @@ def space_formatter(expr):
     if word == 'END.':
         content = re.sub(r'\s*END.\s*', 'END.', content, 0)
 
-    # --------------------------------------------------------------------------------------------------------
     # This section adds the appropriate spaces for the symbols
     symbolic_pattern = r'(\=|\*|\-|\,|\:|\(|\)|\<\=|\+|\;)'
     matched = re.findall(symbolic_pattern, content)
@@ -94,24 +93,13 @@ def space_formatter(expr):
             content = re.sub(r'\s*\+\s*', ' + ', content, 0)
 
         if word == '-':
-            content = re.sub(r'\s*-\s*', ' - ', content, 0)
+            content = re.sub(r'\s*-\s+', ' - ', content, 0)
 
         if word == '*':
             content = re.sub(r'\s*\*\s*', ' * ', content, 0)
 
         if word == ':':
             content = re.sub(r'\s*:\s*', ' : ', content, 0)
-
-    # --------------------------------------------------------------------------------------------------------
-    # This section adds the appropriate spaces for negative numbers
-    neg_number_pattern = r'-\s*[0-9]'
-    matched = re.findall(neg_number_pattern, content)
-
-    for num in matched:
-        number = num[2:]
-        content = re.sub(r'\s*-\s*[0-9]\s*', ' -' + number + ' ', content, 0)
-
-    # --------------------------------------------------------------------------------------------------------
 
     return content+'\n'
 
@@ -120,6 +108,7 @@ def clean_text(filename):
     """
     Cleans up the spaces in the text file.
     
+    :rtype: lines_content: The entire content of the string cleaned up
     :param filename: The name of the file you want to clean
     """
     file = open('finalv2.txt', mode='r+', encoding='utf-8')
@@ -137,7 +126,9 @@ def clean_text(filename):
 
     # Writes the cleaned up text to the text file
     with open(filename, mode='w+') as new_file:
-        new_file.writelines(lines_content)
+        new_file.writelines(lines_content.strip())
+
+    return lines_content.strip()
 
 
 def main():
@@ -149,7 +140,8 @@ def main():
         new_file.close()
 
     # Clean the spaces
-    clean_text('finalv2.txt')
+    content = clean_text('finalv2.txt')
+    print(content)
 
         
 if __name__ == "__main__":
