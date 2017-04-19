@@ -16,7 +16,7 @@ def code_generator(source, filename):
     for line in source:
         if re.match(r'PRINT', line):
             line = re.sub(r'PRINT\s*\(', '\tcout <<', line, 0)
-            line = re.sub(r'\) ;', '<< endl;\n', line, 0)
+            line = re.sub(r'\)\s*;', '<< endl;\n', line, 0)
             content += line
             continue
 
@@ -25,7 +25,7 @@ def code_generator(source, filename):
         elif re.match(r'^BEGIN', line):
             content += 'int main()\n{\n'
         elif re.match(r'^INTEGER', line):
-            line = re.sub(r'INTEGER :', 'int', line)
+            line = re.sub(r'INTEGER\s*:', 'int', line)
             content += line + '\n'
         elif re.match(r'^(P|Q|R|S)+(P|Q|R|S|[0-9])*', line):
             content += '\t' + line + '\n'
