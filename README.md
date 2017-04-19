@@ -2,7 +2,7 @@
 
 Run compiler.py to use the program
 
-# Descrption
+# Description
 
 Uses LL(1) parsing to parse the grammar.
 
