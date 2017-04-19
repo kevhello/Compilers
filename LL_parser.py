@@ -60,4 +60,4 @@ def predictive_parser(token_list, predict_table, terminal_list, starting_symbol)
         print(stack)
 
     print('The grammar has accepted the input string\n')
-    return 0
+    return True

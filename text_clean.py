@@ -90,14 +90,12 @@ def space_formatter(expr):
             content = re.sub(r'\s*\)\s*', ' ) ', content, 0)
 
         if word == '+':
-            print('BEFORE: ' + content)
+
             if re.match(r'\s*\+[0-9]+.+', content):
-                print('FOUND')
                 content = re.sub(r'\s*\+', ' +', content, 0)
             else:
-                #print('FOUND')
                 content = re.sub(r'\s*\+\s*', ' + ', content, 0)
-            print('After: ' + content)
+
         if word == '-':
             content = re.sub(r'\s*-\s+', ' - ', content, 0)
 

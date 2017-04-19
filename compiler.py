@@ -12,6 +12,8 @@ from tokenizer import *
 
 from LL_parser import *
 
+from code_generator import *
+
 
 def main():
     # First, remove all the comments
@@ -53,8 +55,10 @@ def main():
         'U': {'P': 'P', 'Q': 'Q', 'R': 'R', 'S': 'S', '0': 'aaa', '1': 'aaa', '2': 'aaa', '3': 'aaa', '4': 'aaa', '5': 'aaa', '6': 'aaa', '7': 'aaa', '8': 'aaa', '9': 'aaa', 'PROGRAM': 'aaa', 'BEGIN': 'aaa', 'END.': 'aaa', 'INTEGER': 'aaa', 'PRINT': 'aaa', '+': 'aaa', '-': 'aaa', '/': 'aaa', '*': 'aaa', '(': 'aaa', ')': 'aaa', ',': 'aaa', '.': 'aaa', ';': 'aaa', '=': 'aaa', ':': 'aaa', '$': 'aaa'},
     }
 
-    predictive_parser(token_list, predict_table, terminal_list, starting_symbol='W')
+    parse_status = predictive_parser(token_list, predict_table, terminal_list, starting_symbol='W')
 
+    if parse_status is True:
+        code_generator(content.split('\n'), 'main.cpp')
 
 if __name__ == "__main__":
     main()
