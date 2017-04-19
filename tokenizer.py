@@ -6,6 +6,7 @@ from token import *
 
 def tokenizer(string):
     """
+    Creates a list of tokens from the input string
     
     :param string: The source code
     :return: A list of tokens. Returns -1 if a token is not recognizable.
@@ -38,8 +39,8 @@ def tokenizer(string):
         elif re.match(identifier_pattern, word):  # Check for identifier token
             for symbol in word:
                 if re.match(r'(P|Q|R|S)', symbol):
-                    id = Token('ID', symbol)
-                    token_list.append(id)
+                    _id = Token('ID', symbol)
+                    token_list.append(_id)
                 elif re.match(r'[0-9]', symbol):
                     more_id_digit = Token('MORE_ID_DIGIT', symbol)
                     token_list.append(more_id_digit)
@@ -52,5 +53,3 @@ def tokenizer(string):
     #     print(token.get_type(), ':', token.get_value())
 
     return token_list
-
-

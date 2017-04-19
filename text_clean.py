@@ -90,8 +90,14 @@ def space_formatter(expr):
             content = re.sub(r'\s*\)\s*', ' ) ', content, 0)
 
         if word == '+':
-            content = re.sub(r'\s*\+\s*', ' + ', content, 0)
-
+            print('BEFORE: ' + content)
+            if re.match(r'\s*\+[0-9]+.+', content):
+                print('FOUND')
+                content = re.sub(r'\s*\+', ' +', content, 0)
+            else:
+                #print('FOUND')
+                content = re.sub(r'\s*\+\s*', ' + ', content, 0)
+            print('After: ' + content)
         if word == '-':
             content = re.sub(r'\s*-\s+', ' - ', content, 0)
 
@@ -118,7 +124,7 @@ def clean_text(filename):
     for line in lines_read:
 
         # Ignore lines that only contain the newline character
-        if re.match(pattern=r'\s*\n$\s*', string=line):
+        if re.match(pattern=r'\s*\n\s*', string=line):
             continue
 
         line = space_formatter(line)

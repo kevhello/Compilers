@@ -1,5 +1,11 @@
 #!usr/bin/env python3
 
+# FINAL PROJECT
+# Professor Ahmadnia
+# Group: Kevin Vuong, Anika Corpus, Christopher Grant
+# Description: This program reads source code from a file, outputs it w/o comments and properly formatted spaces.
+#              It then tokenizes and then parses the source code and checks if it has correct grammar.
+
 from text_clean import *
 
 from tokenizer import *
