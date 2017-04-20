@@ -13,7 +13,7 @@ from token import *
 
 def syntax_error_handler_1(error_value, line_number):
     """
-    Handles the error condition in the non-terminal if-block
+    Handles the error condition in the terminal if-block
     
     :param error_value: The symbol under question
     :param line_number: The line number where the error has occurred
@@ -29,7 +29,7 @@ def syntax_error_handler_1(error_value, line_number):
 
 def syntax_error_handler_2(error_value, line_number):
     """
-    Handles the error condition in the terminal if-block
+    Handles the error condition in the non-terminal if-block
     
     :param error_value: The symbol under question
     :param line_number: The line number where the error has occurred
