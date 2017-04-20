@@ -1,4 +1,4 @@
-# How to Use
+# Usage
 
 Run compiler.py to use the program
 
@@ -6,9 +6,8 @@ Run compiler.py to use the program
 
 Uses LL(1) parsing to parse the grammar.
 
+Compiles the source code contained in finalv1.txt
 
-Uses finalv1.txt as source code input.
+finalv2.txt contains the source code without comments and with formatted spacing.
 
-finalv2.txt contains the source code w/o comments and with formatted spacing.
-
-Saves the code generated file to main.cpp.
+The compiled code is stored inside main.cpp.
