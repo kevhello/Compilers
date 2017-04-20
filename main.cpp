@@ -1,13 +1,13 @@
 #include <iostream>
-using namespace std;
+using namespace std ;
 int P1 , Q2S , R , S12 ;
 int main()
 {
-	P1 = -3 ;
+	P1 = - 3 ;
 	Q2S = + 4 ;
 	R = 5 ;
-	cout << R << endl;
+	cout << R << endl ;
 	S12 = P1 * ( Q2S + 2 * R ) ;
-	cout << S12 << endl;
-	return 0;
+	cout << S12 << endl ;
+	return 0 ;
 }

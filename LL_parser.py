@@ -11,6 +11,40 @@ import re
 from token import *
 
 
+def syntax_error_handler_1(error_value, line_number):
+    """
+    Handles the error condition in the non-terminal if-block
+    
+    :param error_value: The symbol under question
+    :param line_number: The line number where the error has occurred
+    :return: 
+    """
+    if re.match(r':', error_value):
+        print('Line ' + str(line_number) + ':', 'Missing a colon (:)')
+    elif re.match(r';', error_value):
+        print('Line ' + str(line_number - 1) + ':', 'Expected a semicolon')
+    elif re.match(r'\)', error_value):
+        print('Line ' + str(line_number) + ':', 'Expected a )')
+
+
+def syntax_error_handler_2(error_value, line_number):
+    """
+    Handles the error condition in the terminal if-block
+    
+    :param error_value: The symbol under question
+    :param line_number: The line number where the error has occurred
+    :return: None
+    """
+    error_line = 'Line ' + str(line_number - 1) + ':'
+
+    if re.match(r'(P|Q|R|S|BEGIN)', error_value):
+        print(error_line, 'Missing a semicolon (;)')
+    elif re.match(r';', error_value):
+        print('Line ' + str(line_number) + ':', 'Missing an expression')
+    elif re.match(r'\)', error_value):
+        print('Line ' + str(line_number) + ':', 'Invalid expression')
+
+
 def predictive_parser(token_list, predict_table, terminal_list, starting_symbol):
     """
     Determines whether the input string is accepted or rejected based on the prediction table.
@@ -26,7 +60,7 @@ def predictive_parser(token_list, predict_table, terminal_list, starting_symbol)
     i = 0  # Keeps track which token is currently being read
 
     # Add ending symbol to the end of the input
-    ending_symbol = Token('$', '$')
+    ending_symbol = Token('$', '$', 0)
     token_list.append(ending_symbol)
 
     while stack:  # loop until stack is empty
@@ -40,7 +74,9 @@ def predictive_parser(token_list, predict_table, terminal_list, starting_symbol)
                 stack.pop()
                 i = i + 1
             else:
-                print('\n1: The grammar has rejected the input string\n')
+                print('\n1: The grammar has rejected the input string')
+                print(top_of_stack, char_read)
+                syntax_error_handler_1(top_of_stack, token_read.get_line_num())
                 return -1
         else:   # Non-terminal
             if predict_table[top_of_stack][char_read] is not 'aaa':  # If table entry is not an empty entry
@@ -56,6 +92,7 @@ def predictive_parser(token_list, predict_table, terminal_list, starting_symbol)
             else:
                 print('2: The grammar has rejected the input string')
                 print(top_of_stack, char_read)
+                syntax_error_handler_2(char_read, token_read.get_line_num())
                 return -1
         print(stack)
 

@@ -90,14 +90,10 @@ def space_formatter(expr):
             content = re.sub(r'\s*\)\s*', ' ) ', content, 0)
 
         if word == '+':
-
-            if re.match(r'\s*\+[0-9]+.+', content):
-                content = re.sub(r'\s*\+', ' +', content, 0)
-            else:
-                content = re.sub(r'\s*\+\s*', ' + ', content, 0)
+            content = re.sub(r'\s*\+\s*', ' + ', content, 0)
 
         if word == '-':
-            content = re.sub(r'\s*-\s+', ' - ', content, 0)
+            content = re.sub(r'\s*-\s*', ' - ', content, 0)
 
         if word == '*':
             content = re.sub(r'\s*\*\s*', ' * ', content, 0)

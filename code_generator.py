@@ -16,12 +16,12 @@ def code_generator(source, filename):
     for line in source:
         if re.match(r'PRINT', line):
             line = re.sub(r'PRINT\s*\(', '\tcout <<', line, 0)
-            line = re.sub(r'\)\s*;', '<< endl;\n', line, 0)
+            line = re.sub(r'\)\s*;', '<< endl ;\n', line, 0)
             content += line
             continue
 
         if re.match(r'^PROGRAM', line):
-            content += '#include <iostream>\nusing namespace std;\n'
+            content += '#include <iostream>\nusing namespace std ;\n'
         elif re.match(r'^BEGIN', line):
             content += 'int main()\n{\n'
         elif re.match(r'^INTEGER', line):
@@ -30,7 +30,7 @@ def code_generator(source, filename):
         elif re.match(r'^(P|Q|R|S)+(P|Q|R|S|[0-9])*', line):
             content += '\t' + line + '\n'
         elif re.match(r'END\.', line):
-            content += '\treturn 0;\n}'
+            content += '\treturn 0 ;\n}'
 
     # Write the code generated to the file
     file = open(filename, mode='w')

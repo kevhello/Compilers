@@ -27,6 +27,9 @@ def main():
 
     token_list = tokenizer(content)
 
+    if token_list == -1:
+        exit(1)
+
     terminal_list = ['P', 'Q', 'R', 'S', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'PROGRAM', 'BEGIN', 'END.',
                      'INTEGER', 'PRINT', '+', '-', '/', '*', '(', ')', ',', ';', '=', ':', '$']
 
