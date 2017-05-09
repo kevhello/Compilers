@@ -11,6 +11,10 @@ def code_generator(source, filename):
     """
     # Stores the string to be written to the file.
     content = ''
+    
+    # Allows us to enter vars after main() declaration
+    # is sub-optimal, but w/e
+    vars = ""
 
     # Go through each line, converting it to C++
     for line in source:
@@ -24,9 +28,11 @@ def code_generator(source, filename):
             content += '#include <iostream>\nusing namespace std ;\n'
         elif re.match(r'^BEGIN', line):
             content += 'int main()\n{\n'
+            content += "\t" + vars + "\n"
         elif re.match(r'^INTEGER', line):
-            line = re.sub(r'INTEGER\s*:', 'int', line)
-            content += line + '\n'
+            vars = re.sub(r'INTEGER\s*:', 'int', line)
+            #line = re.sub(r'INTEGER\s*:', 'int', line)
+            #content += line + '\n'
         elif re.match(r'^(P|Q|R|S)+(P|Q|R|S|[0-9])*', line):
             content += '\t' + line + '\n'
         elif re.match(r'END\.', line):
